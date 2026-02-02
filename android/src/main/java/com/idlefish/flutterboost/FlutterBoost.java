@@ -59,6 +59,7 @@ public class FlutterBoost {
     }
 
     public void setup(Application application, FlutterBoostDelegate delegate, Callback callback, FlutterBoostSetupOptions options) {
+        FlutterInjector.instance().flutterLoader().startInitialization(application);
         if (options == null) {
             options = FlutterBoostSetupOptions.createDefault();
         }
@@ -88,7 +89,8 @@ public class FlutterBoost {
             // Pre-warm the cached FlutterEngine.
             engine.getNavigationChannel().setInitialRoute(options.initialRoute());
             engine.getDartExecutor().executeDartEntrypoint(new DartExecutor.DartEntrypoint(
-                    FlutterMain.findAppBundlePath(), options.dartEntrypoint()), options.dartEntrypointArgs());
+                            FlutterInjector.instance().flutterLoader().findAppBundlePath(), options.dartEntrypoint()),
+                    options.dartEntrypointArgs());
         }
         if (callback != null) callback.onStart(engine);
 
